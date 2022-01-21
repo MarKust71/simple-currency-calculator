@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
-import reducer from './reducer/reducer';
+import reducer from './store/reducer';
 
 const store: Store<HistoryState, HistoryAction> & {
   dispatch: DispatchType;
