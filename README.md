@@ -1,1 +1,1 @@
-# my-react-ts-mui-template
+# Simple Currency Calculator
