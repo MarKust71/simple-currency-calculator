@@ -1,6 +1,6 @@
 import { nanoid } from 'nanoid';
 
-import * as actionTypes from '../action/actionTypes';
+import * as actionTypes from './actionTypes';
 
 const initialState: HistoryState = {
   history: [],
