@@ -1,12 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { applyMiddleware, createStore, Store } from 'redux';
+import thunk from 'redux-thunk';
+import { Provider } from 'react-redux';
 
 import { App } from './App';
 import reportWebVitals from './reportWebVitals';
+import reducer from './reducer/reducer';
+
+const store: Store<HistoryState, HistoryAction> & {
+  dispatch: DispatchType;
+} = createStore(reducer, applyMiddleware(thunk));
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
 );
