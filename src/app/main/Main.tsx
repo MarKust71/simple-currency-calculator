@@ -1,17 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Box,
-  CssBaseline,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  SelectChangeEvent,
-  TextField,
-  Typography,
-  useTheme,
-} from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Box, CssBaseline, SelectChangeEvent, Typography, useTheme } from '@mui/material';
 
 import { MobileContainer } from 'ui/mobileContainer/MobileContainer';
 import { DesktopContainer } from 'ui/desktopContainer/DesktopContainer';
@@ -20,12 +8,7 @@ import { useCurrencies } from 'hooks/useCurrencies/useCurrencies';
 
 import { MainProps } from './Main.types';
 import { useStyles } from './Main.styles';
-
-const StyledTextField = styled(TextField)({
-  '& .MuiOutlinedInput-input': {
-    textAlign: 'end',
-  },
-});
+import { CurrencyToValuate } from './currencyToValuate/CurrencyToValuate';
 
 export const Main: React.FC<MainProps> = ({}) => {
   const theme = useTheme();
@@ -90,45 +73,14 @@ export const Main: React.FC<MainProps> = ({}) => {
         ) : (
           <Typography className={classes.wrapper}>
             <Box component="form" noValidate autoComplete="off">
-              <Box mb={1}>
-                <Typography variant="body2">Amount and currency you want to valuate:</Typography>
-              </Box>
-              <Box className={classes.inputWrapper} mb={0.5}>
-                <StyledTextField
-                  required
-                  label="Amount"
-                  placeholder="Amount"
-                  value={amount}
-                  onChange={handleAmountChange}
-                />
-                <Box mr={1} />
-                <Box sx={{ width: 120 }}>
-                  <FormControl fullWidth>
-                    <InputLabel>Currency</InputLabel>
-                    <Select
-                      label="Currency"
-                      value={currency}
-                      defaultValue=""
-                      onChange={handleSelectChange}
-                      renderValue={(value) => value.toUpperCase()}
-                    >
-                      {Object.entries(currencies).map((entry) => {
-                        const [code, name] = entry;
-                        return (
-                          <MenuItem key={code} value={code}>
-                            {`${code.toUpperCase()} ${name}`}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Box>
-              </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', px: 1 }}>
-                <Typography sx={{ alignSelf: 'flex-end' }} variant="caption">
-                  {currencyName}
-                </Typography>
-              </Box>
+              <CurrencyToValuate
+                currencies={currencies}
+                amount={amount}
+                currency={currency}
+                currencyName={currencyName}
+                handleAmountChange={handleAmountChange}
+                handleSelectChange={handleSelectChange}
+              />
             </Box>
           </Typography>
         )}
