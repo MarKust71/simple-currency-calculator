@@ -1,7 +1,5 @@
 import React from 'react';
-import { Box, FormControl, InputLabel, Select } from '@mui/material';
-
-import { CurrencySelectItemsList } from 'ui/currencySelectItemsList/CurrencySelectItemsList';
+import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 
 import { CurrencySelectProps } from './CurrencySelect.types';
 
@@ -17,7 +15,17 @@ export const CurrencySelect: React.FC<CurrencySelectProps> = ({ currencies, curr
           onChange={handleSelectChange}
           renderValue={(value) => value.toUpperCase()}
         >
+          {/*
           <CurrencySelectItemsList currencies={currencies} />
+*/}
+          {Object.entries(currencies).map((entry) => {
+            const [code, name] = entry;
+            return (
+              <MenuItem key={code} value={code}>
+                {`${code.toUpperCase()} ${name}`}
+              </MenuItem>
+            );
+          })}
         </Select>
       </FormControl>
     </Box>
