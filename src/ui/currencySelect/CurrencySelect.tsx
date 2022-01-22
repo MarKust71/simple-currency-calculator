@@ -14,6 +14,11 @@ export const CurrencySelect: React.FC<CurrencySelectProps> = ({ currencies, curr
           defaultValue=""
           onChange={handleSelectChange}
           renderValue={(value) => value.toUpperCase()}
+          MenuProps={{
+            PaperProps: {
+              sx: { maxHeight: 400 },
+            },
+          }}
         >
           {/*
           <CurrencySelectItemsList currencies={currencies} />
