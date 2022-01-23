@@ -1,13 +1,18 @@
 import React from 'react';
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import { TReducer } from 'stores';
+import { useCurrencies } from 'hooks/useCurrencies/useCurrencies';
 
-import { CurrencySelectProps } from './CurrencySelect.types';
+export const CurrencySelect = (): JSX.Element => {
+  const { setCurrencyCodeFrom } = useCurrencies();
 
-export const CurrencySelect: React.FC<CurrencySelectProps> = ({ value, handleSelectChange }) => {
-  const { currencies } = useSelector((state: TReducer) => state.currencies);
+  const { currencies, currencyFrom } = useSelector((state: TReducer) => state.currencies);
+
+  const handleSelectChange = ({ target }: SelectChangeEvent<string>) => {
+    setCurrencyCodeFrom(target.value);
+  };
 
   return (
     <Box sx={{ width: 120 }}>
@@ -15,7 +20,7 @@ export const CurrencySelect: React.FC<CurrencySelectProps> = ({ value, handleSel
         <InputLabel>Currency</InputLabel>
         <Select
           label="Currency"
-          value={value}
+          value={currencyFrom}
           defaultValue=""
           onChange={handleSelectChange}
           renderValue={(value) => value.toUpperCase()}

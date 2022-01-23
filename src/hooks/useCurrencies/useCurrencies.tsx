@@ -1,12 +1,15 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { api } from 'api/axiosApi';
-import { setCurrencies } from 'stores/currenciesStore/currenciesActionCreators';
+import { setCurrencies, setCurrencyFrom } from 'stores/currenciesStore/currenciesActionCreators';
+import { TReducer } from 'stores';
 
 export const useCurrencies = () => {
   const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const currencies = useSelector((state: TReducer) => state.currencies);
 
   const getCurrencies = async () => {
     try {
@@ -22,5 +25,14 @@ export const useCurrencies = () => {
     }
   };
 
-  return { isLoading, getCurrencies };
+  const setCurrencyCodeFrom = (currencyCode: string) => {
+    dispatch(
+      setCurrencyFrom({
+        ...currencies,
+        currencyFrom: currencyCode,
+      }),
+    );
+  };
+
+  return { isLoading, getCurrencies, setCurrencyCodeFrom };
 };

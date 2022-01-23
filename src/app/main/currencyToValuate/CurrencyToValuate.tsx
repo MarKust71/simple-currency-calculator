@@ -7,13 +7,7 @@ import { CurrencySelect } from 'ui/currencySelect/CurrencySelect';
 import { CurrencyToValuateProps } from './CurrencyToValuate.types';
 import { useStyles } from './CurrencyToValuate.styles';
 
-export const CurrencyToValuate: React.FC<CurrencyToValuateProps> = ({
-  amount,
-  currencyName,
-  handleAmountChange,
-  handleSelectChange,
-  value,
-}) => {
+export const CurrencyToValuate: React.FC<CurrencyToValuateProps> = ({ amount, currencyName, handleAmountChange }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
 
@@ -25,7 +19,7 @@ export const CurrencyToValuate: React.FC<CurrencyToValuateProps> = ({
       <Box className={classes.inputWrapper} mb={0.5}>
         <StyledTextField required label="Amount" placeholder="Amount" value={amount} onChange={handleAmountChange} />
         <Box mr={1} />
-        <CurrencySelect value={value} handleSelectChange={handleSelectChange} />
+        <CurrencySelect />
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', px: 1 }}>
         <Typography sx={{ alignSelf: 'flex-end' }} variant="caption">
