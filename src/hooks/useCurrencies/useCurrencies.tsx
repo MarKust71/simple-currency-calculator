@@ -1,19 +1,20 @@
 import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { api } from 'api/axiosApi';
-
-import { TCurrencies } from './useCurrencies.types';
+import { setCurrencies } from 'stores/currenciesStore/currenciesActionCreators';
 
 export const useCurrencies = () => {
+  const dispatch = useDispatch();
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [currencies, setCurrencies] = useState<TCurrencies | Record<string, never>>({});
 
   const getCurrencies = async () => {
     try {
       setIsLoading(true);
       const response = await api.get('/latest/currencies.json');
 
-      setCurrencies(response.data);
+      dispatch(setCurrencies(response.data));
+
       setIsLoading(false);
     } catch (error) {
       setIsLoading(false);
@@ -21,5 +22,5 @@ export const useCurrencies = () => {
     }
   };
 
-  return { isLoading, currencies, getCurrencies };
+  return { isLoading, getCurrencies };
 };

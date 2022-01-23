@@ -1,16 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { applyMiddleware, createStore, Store } from 'redux';
-import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
-import { App } from './App';
-import reportWebVitals from './reportWebVitals';
-import reducer from './store/reducer';
+import store from 'stores/store';
 
-const store: Store<HistoryState, HistoryAction> & {
-  dispatch: DispatchType;
-} = createStore(reducer, applyMiddleware(thunk));
+import reportWebVitals from './reportWebVitals';
+import { App } from './App';
 
 ReactDOM.render(
   <React.StrictMode>
