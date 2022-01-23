@@ -1,15 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 import { StyledTextField } from 'ui/styledTextField/StyledTextField';
 import { CurrencySelect } from 'ui/currencySelect/CurrencySelect';
+import { TReducer } from 'stores';
 
 import { CurrencyToValuateProps } from './CurrencyToValuate.types';
 import { useStyles } from './CurrencyToValuate.styles';
 
-export const CurrencyToValuate: React.FC<CurrencyToValuateProps> = ({ amount, currencyName, handleAmountChange }) => {
+export const CurrencyToValuate: React.FC<CurrencyToValuateProps> = ({ amount, handleAmountChange }) => {
   const theme = useTheme();
   const classes = useStyles(theme);
+
+  const [currencyName, setCurrencyName] = useState('');
+
+  const { currencies, currencyFrom } = useSelector((state: TReducer) => state.currencies);
+
+  useEffect(() => {
+    if (!currencyFrom) return;
+
+    const entries = Object.entries({ ...currencies });
+    const [entry] = entries.filter((item) => {
+      const [code] = item;
+      return code === currencyFrom;
+    });
+
+    if (!entry) return;
+
+    const [, name] = entry;
+
+    setCurrencyName(name);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currencyFrom]);
 
   return (
     <>

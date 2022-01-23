@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Box, CssBaseline, SelectChangeEvent, Typography, useTheme } from '@mui/material';
+import { Box, CssBaseline, Typography, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 
 import { MobileContainer } from 'ui/mobileContainer/MobileContainer';
@@ -11,6 +11,7 @@ import { TReducer } from 'stores';
 import { MainProps } from './Main.types';
 import { useStyles } from './Main.styles';
 import { CurrencyToValuate } from './currencyToValuate/CurrencyToValuate';
+import { ValuationResult } from './valuationResult/ValuationResult';
 
 export const Main: React.FC<MainProps> = ({}) => {
   const theme = useTheme();
@@ -19,10 +20,9 @@ export const Main: React.FC<MainProps> = ({}) => {
 
   const classes = useStyles(theme);
 
-  const { currencies, currencyFrom } = useSelector((state: TReducer) => state.currencies);
+  const { currencies } = useSelector((state: TReducer) => state.currencies);
 
   const [amount, setAmount] = useState('');
-  const [currencyName, setCurrencyName] = useState('');
 
   const MainContainer: React.FC = useMemo(() => {
     if (isDeviceMobile) {
@@ -31,10 +31,6 @@ export const Main: React.FC<MainProps> = ({}) => {
 
     return ({ children }) => <DesktopContainer>{children}</DesktopContainer>;
   }, [isDeviceMobile]);
-
-  const handleSelectChange = ({ target }: SelectChangeEvent<string>) => {
-    setCurrencyCodeFrom(target.value);
-  };
 
   const handleAmountChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const value = target.value.replaceAll(',', '.');
@@ -48,32 +44,12 @@ export const Main: React.FC<MainProps> = ({}) => {
 
     // if 'currency' not set, yet, fill 'code' and 'name' with the very first data from the list
     const [firstCurrencyOnList] = Object.entries({ ...currencies });
-    const [code, name] = firstCurrencyOnList;
+    const [code] = firstCurrencyOnList;
 
     setCurrencyCodeFrom(code);
 
-    setCurrencyName(name);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies]);
-
-  useEffect(() => {
-    if (!currencyFrom) return;
-
-    const entries = Object.entries({ ...currencies });
-    const [entry] = entries.filter((item) => {
-      const [code] = item;
-      return code === currencyFrom;
-    });
-
-    if (!entry) return;
-
-    const [, name] = entry;
-
-    setCurrencyName(name);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currencyFrom]);
 
   return (
     <>
@@ -84,13 +60,9 @@ export const Main: React.FC<MainProps> = ({}) => {
         ) : (
           <Typography className={classes.wrapper}>
             <Box component="form" noValidate autoComplete="off">
-              <CurrencyToValuate
-                amount={amount}
-                currencyName={currencyName}
-                handleAmountChange={handleAmountChange}
-                handleSelectChange={handleSelectChange}
-                value={currencyFrom || ''}
-              />
+              <CurrencyToValuate amount={amount} handleAmountChange={handleAmountChange} />
+              <Box mb={1} />
+              <ValuationResult />
             </Box>
           </Typography>
         )}
