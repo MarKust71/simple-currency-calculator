@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Box, CssBaseline, SelectChangeEvent, Typography, useTheme } from '@mui/material';
+import { shallowEqual, useSelector } from 'react-redux';
 
 import { MobileContainer } from 'ui/mobileContainer/MobileContainer';
 import { DesktopContainer } from 'ui/desktopContainer/DesktopContainer';
 import { useDetectDevice } from 'hooks/useDetectDevice/useDetectDevice';
 import { useCurrencies } from 'hooks/useCurrencies/useCurrencies';
+import { HistoryState, IHistoryItem } from 'stores/historyStore/history.types';
 
 import { MainProps } from './Main.types';
 import { useStyles } from './Main.styles';
@@ -39,6 +41,9 @@ export const Main: React.FC<MainProps> = ({}) => {
       setAmount(value);
     }
   };
+
+  const currs: readonly IHistoryItem[] = useSelector((state: HistoryState) => state.history, shallowEqual);
+  console.log('currs:', currs);
 
   useEffect(() => {
     getCurrencies();

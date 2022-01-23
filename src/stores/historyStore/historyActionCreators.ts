@@ -1,4 +1,5 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from './historyActionTypes';
+import { HistoryAction, HistoryDispatchType, IHistoryItem } from './history.types';
 
 export const addToHistory = (historyItem: IHistoryItem) => {
   const action: HistoryAction = {
@@ -19,7 +20,7 @@ export const removeFromHistory = (historyItem: IHistoryItem) => {
 };
 
 export const simulateHttpRequest = (action: HistoryAction) => {
-  return (dispatch: DispatchType) => {
+  return (dispatch: HistoryDispatchType) => {
     setTimeout(() => {
       dispatch(action);
     }, 500);

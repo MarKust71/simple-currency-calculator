@@ -1,16 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { applyMiddleware, createStore, Store } from 'redux';
+import { applyMiddleware, combineReducers, createStore, Store } from 'redux';
 import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
-import { App } from './App';
-import reportWebVitals from './reportWebVitals';
-import reducer from './store/reducer';
+import historyReducer from 'stores/historyStore/historyReducer';
+import { HistoryDispatchType } from 'stores/historyStore/history.types';
+import currenciesReducer from 'stores/currenciesStore/currenciesReducer';
 
-const store: Store<HistoryState, HistoryAction> & {
-  dispatch: DispatchType;
-} = createStore(reducer, applyMiddleware(thunk));
+import reportWebVitals from './reportWebVitals';
+import { App } from './App';
+import { CurrenciesDispatchType } from './stores/currenciesStore/currencies.types';
+
+const reducers = combineReducers({ historyReducer, currenciesReducer });
+
+const store: Store & {
+  dispatch: HistoryDispatchType | CurrenciesDispatchType;
+} = createStore(reducers, applyMiddleware(thunk));
+
+/*
+const store = createStore(reducers, applyMiddleware(thunk));
+*/
 
 ReactDOM.render(
   <React.StrictMode>

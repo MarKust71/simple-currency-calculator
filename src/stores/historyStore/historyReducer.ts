@@ -1,12 +1,22 @@
 import { nanoid } from 'nanoid';
 
-import * as actionTypes from './actionTypes';
+import * as actionTypes from './historyActionTypes';
+import { HistoryAction, HistoryState, IHistoryItem } from './history.types';
 
 const initialState: HistoryState = {
-  history: [],
+  history: [
+    {
+      id: 'jhjhjhj',
+      date: new Date().toISOString(),
+      rate: 4.5432,
+      fromCurrency: 'eur',
+      toCurrency: 'pln',
+      amount: 123.45,
+    },
+  ],
 };
 
-const reducer = (state: HistoryState = initialState, action: HistoryAction): HistoryState => {
+const historyReducer = (state: HistoryState = initialState, action: HistoryAction): HistoryState => {
   switch (action.type) {
     case actionTypes.ADD_TO_HISTORY:
       const newHistoryItem: IHistoryItem = {
@@ -15,6 +25,7 @@ const reducer = (state: HistoryState = initialState, action: HistoryAction): His
         fromCurrency: action.historyItem.fromCurrency,
         toCurrency: action.historyItem.toCurrency,
         rate: action.historyItem.rate,
+        amount: action.historyItem.amount,
       };
       return {
         ...state,
@@ -33,4 +44,4 @@ const reducer = (state: HistoryState = initialState, action: HistoryAction): His
   return state;
 };
 
-export default reducer;
+export default historyReducer;
