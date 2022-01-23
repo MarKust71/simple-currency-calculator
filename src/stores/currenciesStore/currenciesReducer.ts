@@ -1,5 +1,5 @@
 import { CurrenciesAction, CurrenciesState } from './currencies.types';
-import * as actionTypes from './currenciesActionTypes';
+import { CurrenciesActionType } from './currenciesActionTypes';
 
 const initialState: CurrenciesState = {
   currencies: {},
@@ -7,13 +7,15 @@ const initialState: CurrenciesState = {
 
 const currenciesReducer = (state: CurrenciesState = initialState, action: CurrenciesAction): CurrenciesState => {
   switch (action.type) {
-    case actionTypes.SET_CURRENCIES:
+    case CurrenciesActionType.SET_CURRENCIES:
       return {
         ...state,
-        currencies: { pln: 'Polish złoty', usd: 'US dolar', eur: 'EC euro' },
+        currencies: action.payload,
       };
+
+    default:
+      return state;
   }
-  return state;
 };
 
 export default currenciesReducer;

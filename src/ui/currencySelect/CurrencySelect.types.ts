@@ -1,9 +1,9 @@
 import { SelectChangeEvent } from '@mui/material';
 
-import { TCurrencies } from 'hooks/useCurrencies/useCurrencies.types';
+import { ICurrencies } from 'stores/currenciesStore/currencies.types';
 
 export type CurrencySelectProps = {
-  currencies: TCurrencies | Record<string, never>;
+  currencies: ICurrencies;
   currency: string;
   handleSelectChange: ({ target }: SelectChangeEvent<string>) => void;
 };

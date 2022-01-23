@@ -1,5 +1,5 @@
-import { TCurrencies } from '../../hooks/useCurrencies/useCurrencies.types';
+import { ICurrencies } from 'stores/currenciesStore/currencies.types';
 
 export type CurrencySelectItemsListProps = {
-  currencies: TCurrencies | Record<string, never>;
+  currencies: ICurrencies;
 };

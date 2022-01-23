@@ -3,12 +3,10 @@ export interface ICurrencies {
 }
 
 export type CurrenciesState = {
-  currencies: ICurrencies | Record<string, never>;
+  currencies?: ICurrencies;
 };
 
 export type CurrenciesAction = {
   type: string;
-  currencies: ICurrencies;
+  payload?: ICurrencies;
 };
-
-export type CurrenciesDispatchType = (args: CurrenciesAction) => CurrenciesAction;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { SelectChangeEvent } from '@mui/material';
 
-import { TCurrencies } from 'hooks/useCurrencies/useCurrencies.types';
+import { ICurrencies } from 'stores/currenciesStore/currencies.types';
 
 export type CurrencyToValuateProps = {
-  currencies: TCurrencies | Record<string, never>;
+  currencies: ICurrencies;
   amount: string;
   currency: string;
   currencyName: string;

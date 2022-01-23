@@ -1,1 +1,3 @@
-export const SET_CURRENCIES = 'SET_CURRENCIES';
+export enum CurrenciesActionType {
+  SET_CURRENCIES = 'SET_CURRENCIES',
+}

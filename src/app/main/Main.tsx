@@ -1,21 +1,23 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Box, CssBaseline, SelectChangeEvent, Typography, useTheme } from '@mui/material';
-import { shallowEqual, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import { MobileContainer } from 'ui/mobileContainer/MobileContainer';
 import { DesktopContainer } from 'ui/desktopContainer/DesktopContainer';
 import { useDetectDevice } from 'hooks/useDetectDevice/useDetectDevice';
 import { useCurrencies } from 'hooks/useCurrencies/useCurrencies';
-import { HistoryState, IHistoryItem } from 'stores/historyStore/history.types';
+import { TReducer } from 'stores';
 
 import { MainProps } from './Main.types';
 import { useStyles } from './Main.styles';
 import { CurrencyToValuate } from './currencyToValuate/CurrencyToValuate';
 
 export const Main: React.FC<MainProps> = ({}) => {
+  const { currencies } = useSelector((state: TReducer) => state.currencies);
+
   const theme = useTheme();
   const { isDeviceMobile } = useDetectDevice();
-  const { isLoading, getCurrencies, currencies } = useCurrencies();
+  const { isLoading } = useCurrencies();
 
   const classes = useStyles(theme);
 
@@ -42,17 +44,9 @@ export const Main: React.FC<MainProps> = ({}) => {
     }
   };
 
-  const currs: readonly IHistoryItem[] = useSelector((state: HistoryState) => state.history, shallowEqual);
-  console.log('currs:', currs);
-
   useEffect(() => {
-    getCurrencies();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (Object.entries(currencies).length && !currency) {
-      const [entry] = Object.entries(currencies);
+    if (Object.entries({ ...currencies }).length && !currency) {
+      const [entry] = Object.entries({ ...currencies });
       setCurrency(entry[0].toUpperCase());
       setCurrencyName(entry[1]);
     }
@@ -62,10 +56,10 @@ export const Main: React.FC<MainProps> = ({}) => {
   useEffect(() => {
     if (!currency) return;
 
-    const entries = Object.entries(currencies).filter((entry) => entry[0] === currency);
+    const entries = Object.entries({ ...currencies }).filter((entry) => entry[0] === currency);
 
     if (!entries.length) return;
-    setCurrencyName(Object.entries(currencies).filter((entry) => entry[0] === currency)[0][1]);
+    setCurrencyName(Object.entries({ ...currencies }).filter((entry) => entry[0] === currency)[0][1]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currency]);
 
@@ -79,7 +73,7 @@ export const Main: React.FC<MainProps> = ({}) => {
           <Typography className={classes.wrapper}>
             <Box component="form" noValidate autoComplete="off">
               <CurrencyToValuate
-                currencies={currencies}
+                currencies={{ ...currencies }}
                 amount={amount}
                 currency={currency}
                 currencyName={currencyName}

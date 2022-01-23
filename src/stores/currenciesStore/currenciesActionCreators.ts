@@ -1,11 +1,13 @@
-import { CurrenciesAction, CurrenciesDispatchType, ICurrencies } from './currencies.types';
-import * as actionTypes from './currenciesActionTypes';
+import { Dispatch } from 'redux';
+
+import { CurrenciesAction, ICurrencies } from './currencies.types';
+import { CurrenciesActionType } from './currenciesActionTypes';
 
 export const setCurrencies = (currencies: ICurrencies) => {
   const action: CurrenciesAction = {
-    type: actionTypes.SET_CURRENCIES,
-    currencies,
+    type: CurrenciesActionType.SET_CURRENCIES,
+    payload: currencies,
   };
 
-  return (dispatch: CurrenciesDispatchType) => dispatch(action);
+  return (dispatch: Dispatch<CurrenciesAction>) => dispatch(action);
 };
