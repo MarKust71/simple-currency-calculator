@@ -6,7 +6,7 @@ import { CurrenciesActionType } from './currenciesActionTypes';
 export const setCurrencies = (currencies: ICurrencies) => {
   const action: CurrenciesAction = {
     type: CurrenciesActionType.SET_CURRENCIES,
-    payload: currencies,
+    payload: { currencies },
   };
 
   return (dispatch: Dispatch<CurrenciesAction>) => dispatch(action);

@@ -13,13 +13,13 @@ import { useStyles } from './Main.styles';
 import { CurrencyToValuate } from './currencyToValuate/CurrencyToValuate';
 
 export const Main: React.FC<MainProps> = ({}) => {
-  const { currencies } = useSelector((state: TReducer) => state.currencies);
-
   const theme = useTheme();
   const { isDeviceMobile } = useDetectDevice();
   const { isLoading } = useCurrencies();
 
   const classes = useStyles(theme);
+
+  const { currencies } = useSelector((state: TReducer) => state.currencies);
 
   const [amount, setAmount] = useState('');
   const [currency, setCurrency] = useState('');
@@ -45,21 +45,33 @@ export const Main: React.FC<MainProps> = ({}) => {
   };
 
   useEffect(() => {
-    if (Object.entries({ ...currencies }).length && !currency) {
-      const [entry] = Object.entries({ ...currencies });
-      setCurrency(entry[0].toUpperCase());
-      setCurrencyName(entry[1]);
-    }
+    if (!Object.entries({ ...currencies })?.length) return;
+
+    // if 'currency' not set, yet, fill 'code' and 'name' with the very first data from the list
+    const [firstCurrencyOnList] = Object.entries({ ...currencies });
+    const [code, name] = firstCurrencyOnList;
+
+    setCurrency(code.toUpperCase());
+    setCurrencyName(name);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies]);
 
   useEffect(() => {
     if (!currency) return;
 
-    const entries = Object.entries({ ...currencies }).filter((entry) => entry[0] === currency);
+    const entries = Object.entries({ ...currencies });
+    const [entry] = entries.filter((item) => {
+      const [code] = item;
+      return code === currency;
+    });
 
-    if (!entries.length) return;
-    setCurrencyName(Object.entries({ ...currencies }).filter((entry) => entry[0] === currency)[0][1]);
+    if (!entry) return;
+
+    const [, name] = entry;
+
+    setCurrencyName(name);
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currency]);
 
@@ -73,12 +85,11 @@ export const Main: React.FC<MainProps> = ({}) => {
           <Typography className={classes.wrapper}>
             <Box component="form" noValidate autoComplete="off">
               <CurrencyToValuate
-                currencies={{ ...currencies }}
                 amount={amount}
-                currency={currency}
                 currencyName={currencyName}
                 handleAmountChange={handleAmountChange}
                 handleSelectChange={handleSelectChange}
+                value={currency}
               />
             </Box>
           </Typography>

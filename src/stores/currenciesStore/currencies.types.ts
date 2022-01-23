@@ -8,5 +8,5 @@ export type CurrenciesState = {
 
 export type CurrenciesAction = {
   type: string;
-  payload?: ICurrencies;
+  payload?: CurrenciesState;
 };

@@ -5,7 +5,7 @@ import { CurrencySelect } from './CurrencySelect';
 
 describe('CurrencySelect', () => {
   test('renders', () => {
-    render(<CurrencySelect currency={''} currencies={{}} handleSelectChange={() => null} />);
+    render(<CurrencySelect value={''} handleSelectChange={() => null} />);
     const element = screen.getByText('CurrencySelect');
     expect(element).toBeInTheDocument();
   });

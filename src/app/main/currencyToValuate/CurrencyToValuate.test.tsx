@@ -7,10 +7,9 @@ describe('CurrencyToValuate', () => {
   test('renders', () => {
     render(
       <CurrencyToValuate
-        currency={''}
+        value={''}
         currencyName={''}
         amount={''}
-        currencies={{}}
         handleSelectChange={() => null}
         handleAmountChange={() => null}
       />,

@@ -10,7 +10,7 @@ const currenciesReducer = (state: CurrenciesState = initialState, action: Curren
     case CurrenciesActionType.SET_CURRENCIES:
       return {
         ...state,
-        currencies: action.payload,
+        currencies: action.payload?.currencies,
       };
 
     default:

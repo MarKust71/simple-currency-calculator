@@ -5,7 +5,7 @@ import { CurrencySelectItemsList } from './CurrencySelectItemsList';
 
 describe('CurrencySelectItemsList', () => {
   test('renders', () => {
-    render(<CurrencySelectItemsList currencies={{}} />);
+    render(<CurrencySelectItemsList />);
     const element = screen.getByText('CurrencySelectItemsList');
     expect(element).toBeInTheDocument();
   });
