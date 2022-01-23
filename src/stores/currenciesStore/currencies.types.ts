@@ -4,6 +4,7 @@ export interface ICurrencies {
 
 export type CurrenciesState = {
   currencies?: ICurrencies;
+  currencyFrom?: string;
 };
 
 export type CurrenciesAction = {

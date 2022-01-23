@@ -15,14 +15,13 @@ import { CurrencyToValuate } from './currencyToValuate/CurrencyToValuate';
 export const Main: React.FC<MainProps> = ({}) => {
   const theme = useTheme();
   const { isDeviceMobile } = useDetectDevice();
-  const { isLoading } = useCurrencies();
+  const { isLoading, setCurrencyCodeFrom } = useCurrencies();
 
   const classes = useStyles(theme);
 
-  const { currencies } = useSelector((state: TReducer) => state.currencies);
+  const { currencies, currencyFrom } = useSelector((state: TReducer) => state.currencies);
 
   const [amount, setAmount] = useState('');
-  const [currency, setCurrency] = useState('');
   const [currencyName, setCurrencyName] = useState('');
 
   const MainContainer: React.FC = useMemo(() => {
@@ -34,7 +33,7 @@ export const Main: React.FC<MainProps> = ({}) => {
   }, [isDeviceMobile]);
 
   const handleSelectChange = ({ target }: SelectChangeEvent<string>) => {
-    setCurrency(target.value);
+    setCurrencyCodeFrom(target.value);
   };
 
   const handleAmountChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
@@ -51,19 +50,20 @@ export const Main: React.FC<MainProps> = ({}) => {
     const [firstCurrencyOnList] = Object.entries({ ...currencies });
     const [code, name] = firstCurrencyOnList;
 
-    setCurrency(code.toUpperCase());
+    setCurrencyCodeFrom(code);
+
     setCurrencyName(name);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies]);
 
   useEffect(() => {
-    if (!currency) return;
+    if (!currencyFrom) return;
 
     const entries = Object.entries({ ...currencies });
     const [entry] = entries.filter((item) => {
       const [code] = item;
-      return code === currency;
+      return code === currencyFrom;
     });
 
     if (!entry) return;
@@ -73,7 +73,7 @@ export const Main: React.FC<MainProps> = ({}) => {
     setCurrencyName(name);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currency]);
+  }, [currencyFrom]);
 
   return (
     <>
@@ -89,7 +89,7 @@ export const Main: React.FC<MainProps> = ({}) => {
                 currencyName={currencyName}
                 handleAmountChange={handleAmountChange}
                 handleSelectChange={handleSelectChange}
-                value={currency}
+                value={currencyFrom || ''}
               />
             </Box>
           </Typography>
