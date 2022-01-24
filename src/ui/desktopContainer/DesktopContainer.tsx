@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Container, Typography, useTheme } from '@mui/material';
+import { AppBar, Box, Container, Paper, Typography, useTheme } from '@mui/material';
 
 import { DesktopContainerProps } from './DesktopContainer.types';
 import { useStyles } from './DesktopContainer.styles';
@@ -14,7 +14,9 @@ export const DesktopContainer: React.FC<DesktopContainerProps> = ({ children }) 
         <Typography variant="h4">Hello StackBlitz!</Typography>
         <Typography variant="body1">the tiny currency converter</Typography>
       </AppBar>
-      {children}
+      <Box className={classes.desktopWrapper}>
+        <Paper sx={{ padding: theme.spacing(4), backgroundColor: theme.palette.background.paper }}>{children}</Paper>
+      </Box>
     </Container>
   );
 };

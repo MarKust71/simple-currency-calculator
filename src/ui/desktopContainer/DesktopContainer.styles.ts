@@ -8,4 +8,11 @@ export const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
     padding: theme.spacing(2),
   },
+  desktopWrapper: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: theme.spacing(4),
+    width: '100%',
+  },
 }));
