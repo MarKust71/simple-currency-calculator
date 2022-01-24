@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -7,6 +7,7 @@ import { CurrencySelect } from 'ui/currencySelect/CurrencySelect';
 import { TReducer } from 'stores';
 import { setCurrencyAmount } from 'stores/currenciesStore/currenciesActionCreators';
 import { isNumberValid } from 'helpers/isNumberValid';
+import { useCurrencies } from 'hooks/useCurrencies/useCurrencies';
 
 import { useStyles } from './CurrencyToValuate.styles';
 
@@ -14,10 +15,9 @@ export const CurrencyToValuate = (): JSX.Element => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const dispatch = useDispatch();
+  const { currencyNameFrom } = useCurrencies();
 
-  const [currencyName, setCurrencyName] = useState('');
-
-  const { currencies, currencyFrom, amount } = useSelector((state: TReducer) => state.currencies);
+  const { currencies, amount } = useSelector((state: TReducer) => state.currencies);
 
   const handleAmountChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const value = target.value.replaceAll(',', '.');
@@ -32,24 +32,6 @@ export const CurrencyToValuate = (): JSX.Element => {
     }
   };
 
-  useEffect(() => {
-    if (!currencyFrom) return;
-
-    const entries = Object.entries({ ...currencies });
-    const [entry] = entries.filter((item) => {
-      const [code] = item;
-      return code === currencyFrom;
-    });
-
-    if (!entry) return;
-
-    const [, name] = entry;
-
-    setCurrencyName(name);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currencyFrom]);
-
   return (
     <>
       <Box mb={1}>
@@ -62,7 +44,7 @@ export const CurrencyToValuate = (): JSX.Element => {
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', px: 1 }}>
         <Typography sx={{ alignSelf: 'flex-end' }} variant="caption">
-          {currencyName}
+          {currencyNameFrom}
         </Typography>
       </Box>
     </>
