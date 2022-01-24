@@ -5,7 +5,7 @@ import { CurrencyToValuate } from './CurrencyToValuate';
 
 describe('CurrencyToValuate', () => {
   test('renders', () => {
-    render(<CurrencyToValuate amount={''} handleAmountChange={() => null} />);
+    render(<CurrencyToValuate />);
     const element = screen.getByText('CurrencyToValuate');
     expect(element).toBeInTheDocument();
   });

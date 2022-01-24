@@ -9,4 +9,4 @@ export const ValuationResult: React.FC<ValuationResultProps> = ({}) => {
   const classes = useStyles(theme);
 
   return <>ValuationResult</>;
-  };
+};

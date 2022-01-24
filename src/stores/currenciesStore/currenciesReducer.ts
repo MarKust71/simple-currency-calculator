@@ -3,6 +3,7 @@ import { CurrenciesActionType } from './currenciesActionTypes';
 
 const initialState: CurrenciesState = {
   currencies: {},
+  amount: '',
   currencyFrom: '',
 };
 
@@ -18,6 +19,12 @@ const currenciesReducer = (state: CurrenciesState = initialState, action: Curren
       return {
         ...state,
         currencyFrom: action.payload?.currencyFrom,
+      };
+
+    case CurrenciesActionType.SET_AMOUNT:
+      return {
+        ...state,
+        amount: action.payload?.amount,
       };
 
     default:
