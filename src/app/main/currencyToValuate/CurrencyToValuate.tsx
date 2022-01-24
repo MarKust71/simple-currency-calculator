@@ -19,6 +19,22 @@ export const CurrencyToValuate = (): JSX.Element => {
 
   const { currencies, amount, currencyFrom } = useSelector((state: TReducer) => state.currencies);
 
+  // TODO: implement it later
+  /*
+  const debouncedDispatch = useRef(
+    debounce(
+      (nextValue: string) =>
+        dispatch(
+          setCurrencyAmount({
+            ...currencies,
+            amount: nextValue,
+          }),
+        ),
+      1000,
+    ),
+  ).current;
+*/
+
   const handleAmountChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const value = target.value.replaceAll(',', '.');
 
@@ -29,6 +45,9 @@ export const CurrencyToValuate = (): JSX.Element => {
           amount: value,
         }),
       );
+      /*
+      debouncedDispatch(value);
+*/
     }
   };
 
