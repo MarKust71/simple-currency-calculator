@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Typography, useTheme } from '@mui/material';
+import { Box, SelectChangeEvent, Typography, useTheme } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { StyledTextField } from 'ui/styledTextField/StyledTextField';
@@ -15,9 +15,9 @@ export const CurrencyToValuate = (): JSX.Element => {
   const theme = useTheme();
   const classes = useStyles(theme);
   const dispatch = useDispatch();
-  const { currencyNameFrom } = useCurrencies();
+  const { currencyNameFrom, setCurrencyCodeFrom } = useCurrencies();
 
-  const { currencies, amount } = useSelector((state: TReducer) => state.currencies);
+  const { currencies, amount, currencyFrom } = useSelector((state: TReducer) => state.currencies);
 
   const handleAmountChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     const value = target.value.replaceAll(',', '.');
@@ -32,6 +32,10 @@ export const CurrencyToValuate = (): JSX.Element => {
     }
   };
 
+  const handleChange = ({ target }: SelectChangeEvent<string>) => {
+    setCurrencyCodeFrom(target.value);
+  };
+
   return (
     <>
       <Box mb={1}>
@@ -40,7 +44,7 @@ export const CurrencyToValuate = (): JSX.Element => {
       <Box className={classes.inputWrapper} mb={0.5}>
         <StyledTextField required label="Amount" placeholder="Amount" value={amount} onChange={handleAmountChange} />
         <Box mr={1} />
-        <CurrencySelect />
+        <CurrencySelect value={currencyFrom || ''} onChange={handleChange} />
       </Box>
       <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end', px: 1 }}>
         <Typography sx={{ alignSelf: 'flex-end' }} variant="caption">

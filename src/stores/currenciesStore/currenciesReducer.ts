@@ -5,6 +5,7 @@ const initialState: CurrenciesState = {
   currencies: {},
   amount: '',
   currencyFrom: '',
+  currencyTo: '',
 };
 
 const currenciesReducer = (state: CurrenciesState = initialState, action: CurrenciesAction): CurrenciesState => {
@@ -19,6 +20,12 @@ const currenciesReducer = (state: CurrenciesState = initialState, action: Curren
       return {
         ...state,
         currencyFrom: action.payload?.currencyFrom,
+      };
+
+    case CurrenciesActionType.SET_CURRENCY_CODE_TO:
+      return {
+        ...state,
+        currencyTo: action.payload?.currencyTo,
       };
 
     case CurrenciesActionType.SET_AMOUNT:
