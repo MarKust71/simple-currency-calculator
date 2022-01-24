@@ -12,6 +12,7 @@ import { MainProps } from './Main.types';
 import { useStyles } from './Main.styles';
 import { CurrencyToValuate } from './currencyToValuate/CurrencyToValuate';
 import { ValuationResult } from './valuationResult/ValuationResult';
+import { HistoryBox } from './historyBox/HistoryBox';
 
 export const Main: React.FC<MainProps> = ({}) => {
   const theme = useTheme();
@@ -54,6 +55,8 @@ export const Main: React.FC<MainProps> = ({}) => {
               <>
                 <Box mb={1} />
                 <ValuationResult />
+                <Box mb={1} />
+                <HistoryBox />
               </>
             )}
           </Box>
