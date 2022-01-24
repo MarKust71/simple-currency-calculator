@@ -4,9 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { api } from 'api/axiosApi';
 import { setCurrencies, setCurrencyFrom, setCurrencyTo } from 'stores/currenciesStore/currenciesActionCreators';
 import { TReducer } from 'stores';
+import { useHistory } from 'hooks/useHistory/useHistory';
 
 export const useCurrencies = () => {
   const dispatch = useDispatch();
+  const { addItem } = useHistory();
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [currencyNameFrom, setCurrencyNameFrom] = useState('');
   const [currencyNameTo, setCurrencyNameTo] = useState('');
@@ -132,6 +135,20 @@ export const useCurrencies = () => {
     calculate();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies.currencyTo, currencies.currencyFrom, currencies.amount, rate]);
+
+  useEffect(() => {
+    if (!currencies.amount || !currencies.currencyFrom || !currencies.currencyTo || !result || !parseFloat(result))
+      return;
+    // TODO: do some debounce!
+    addItem({
+      date: new Date().toISOString(),
+      currencyValueTo: result,
+      currencyValueFrom: currencies.amount,
+      currencyCodeFrom: currencies.currencyFrom?.toUpperCase(),
+      currencyCodeTo: currencies.currencyTo?.toUpperCase(),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [result]);
 
   return {
     isLoading,
