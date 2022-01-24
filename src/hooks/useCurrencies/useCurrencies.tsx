@@ -11,6 +11,7 @@ export const useCurrencies = () => {
   const [currencyNameFrom, setCurrencyNameFrom] = useState('');
   const [currencyNameTo, setCurrencyNameTo] = useState('');
   const [result, setResult] = useState('');
+  const [rate, setRate] = useState('');
 
   const currencies = useSelector((state: TReducer) => state.currencies);
 
@@ -26,6 +27,29 @@ export const useCurrencies = () => {
       setIsLoading(false);
       console.debug(error);
     }
+  };
+
+  const getCurrentRate = async ({
+    currencyFrom,
+    currencyTo,
+  }: {
+    currencyFrom: string;
+    currencyTo: string;
+  }): Promise<string> => {
+    try {
+      setIsLoading(true);
+      const response = await api.get(`/latest/currencies/${currencyFrom}.json`);
+
+      const rates = response.data;
+
+      setRate(rates[currencyFrom][currencyTo]);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      console.debug(error);
+    }
+
+    return '';
   };
 
   const setCurrencyCodeFrom = (currencyCode: string) => {
@@ -44,6 +68,25 @@ export const useCurrencies = () => {
         currencyTo: currencyCode,
       }),
     );
+  };
+
+  const calculate = async () => {
+    setResult('');
+
+    if (!currencies.currencyFrom || !currencies.currencyTo) {
+      return '';
+    }
+
+    try {
+      await getCurrentRate({ currencyFrom: currencies.currencyFrom || '', currencyTo: currencies.currencyTo || '' });
+      if (!currencies?.amount) {
+        return;
+      }
+      const { amount } = currencies;
+      setResult((+amount * +rate).toFixed(2));
+    } catch (error) {
+      console.debug(error);
+    }
   };
 
   useEffect(() => {
@@ -85,9 +128,18 @@ export const useCurrencies = () => {
   }, [currencies.currencyTo]);
 
   useEffect(() => {
-    // TODO: remove mock!
-    setResult((Math.random() * 1000).toFixed(2));
-  }, [currencies.currencyTo, currencies.currencyFrom, currencies.amount]);
+    setResult('');
+    calculate();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currencies.currencyTo, currencies.currencyFrom, currencies.amount, rate]);
 
-  return { isLoading, getCurrencies, setCurrencyCodeFrom, setCurrencyCodeTo, currencyNameFrom, currencyNameTo, result };
+  return {
+    isLoading,
+    getCurrencies,
+    setCurrencyCodeFrom,
+    setCurrencyCodeTo,
+    currencyNameFrom,
+    currencyNameTo,
+    result,
+  };
 };

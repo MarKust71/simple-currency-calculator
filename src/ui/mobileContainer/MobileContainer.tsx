@@ -1,5 +1,7 @@
 import React from 'react';
-import { AppBar, Container, Typography, useTheme } from '@mui/material';
+import { Container, useTheme } from '@mui/material';
+
+import { CommonAppBar } from 'ui/commonAppBar/CommonAppBar';
 
 import { MobileContainerProps } from './MobileContainer.types';
 import { useStyles } from './MobileContainer.styles';
@@ -10,10 +12,7 @@ export const MobileContainer: React.FC<MobileContainerProps> = ({ children }) =>
 
   return (
     <Container className={classes.container}>
-      <AppBar className={classes.appBar}>
-        <Typography variant="h4">Hello StackBlitz!</Typography>
-        <Typography variant="body1">the tiny currency converter</Typography>
-      </AppBar>
+      <CommonAppBar />
       {children}
     </Container>
   );
