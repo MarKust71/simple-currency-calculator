@@ -5,7 +5,7 @@ import { CurrencySelect } from './CurrencySelect';
 
 describe('CurrencySelect', () => {
   test('renders', () => {
-    render(<CurrencySelect />);
+    render(<CurrencySelect value={''} onChange={() => null} />);
     const element = screen.getByText('CurrencySelect');
     expect(element).toBeInTheDocument();
   });

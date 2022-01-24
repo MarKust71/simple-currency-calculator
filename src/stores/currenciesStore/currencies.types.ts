@@ -6,6 +6,7 @@ export type CurrenciesState = {
   currencies?: ICurrencies;
   amount?: number | string;
   currencyFrom?: string;
+  currencyTo?: string;
 };
 
 export type CurrenciesAction = {
