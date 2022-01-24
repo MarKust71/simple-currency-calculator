@@ -16,7 +16,7 @@ import { ValuationResult } from './valuationResult/ValuationResult';
 export const Main: React.FC<MainProps> = ({}) => {
   const theme = useTheme();
   const { isDeviceMobile } = useDetectDevice();
-  const { isLoading, setCurrencyCodeFrom } = useCurrencies();
+  const { setCurrencyCodeFrom, setCurrencyCodeTo } = useCurrencies();
 
   const classes = useStyles(theme);
 
@@ -38,6 +38,7 @@ export const Main: React.FC<MainProps> = ({}) => {
     const [code] = firstCurrencyOnList;
 
     setCurrencyCodeFrom(code);
+    setCurrencyCodeTo(code);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currencies]);
@@ -46,21 +47,17 @@ export const Main: React.FC<MainProps> = ({}) => {
     <>
       <CssBaseline />
       <MainContainer>
-        {isLoading ? (
-          <Typography>Loading...</Typography>
-        ) : (
-          <Typography className={classes.wrapper}>
-            <Box component="form" noValidate autoComplete="off">
-              <CurrencyToValuate />
-              {!!currencyFrom && !!amount && !!parseFloat(`${amount}`) && (
-                <>
-                  <Box mb={1} />
-                  <ValuationResult />
-                </>
-              )}
-            </Box>
-          </Typography>
-        )}
+        <Typography className={classes.wrapper}>
+          <Box component="form" noValidate autoComplete="off">
+            <CurrencyToValuate />
+            {!!currencyFrom && !!amount && !!parseFloat(`${amount}`) && (
+              <>
+                <Box mb={1} />
+                <ValuationResult />
+              </>
+            )}
+          </Box>
+        </Typography>
       </MainContainer>
     </>
   );
