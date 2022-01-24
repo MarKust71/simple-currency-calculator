@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 import store from 'stores/store';
 
@@ -9,6 +10,9 @@ import { App } from './App';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Helmet>
+      <title>the tiny currency converter</title>
+    </Helmet>
     <Provider store={store}>
       <App />
     </Provider>
