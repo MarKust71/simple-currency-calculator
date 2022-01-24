@@ -1,21 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Typography, useTheme } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { StyledTextField } from 'ui/styledTextField/StyledTextField';
 import { CurrencySelect } from 'ui/currencySelect/CurrencySelect';
 import { TReducer } from 'stores';
+import { setCurrencyAmount } from 'stores/currenciesStore/currenciesActionCreators';
+import { isNumberValid } from 'helpers/isNumberValid';
 
-import { CurrencyToValuateProps } from './CurrencyToValuate.types';
 import { useStyles } from './CurrencyToValuate.styles';
 
-export const CurrencyToValuate: React.FC<CurrencyToValuateProps> = ({ amount, handleAmountChange }) => {
+export const CurrencyToValuate = (): JSX.Element => {
   const theme = useTheme();
   const classes = useStyles(theme);
+  const dispatch = useDispatch();
 
   const [currencyName, setCurrencyName] = useState('');
 
-  const { currencies, currencyFrom } = useSelector((state: TReducer) => state.currencies);
+  const { currencies, currencyFrom, amount } = useSelector((state: TReducer) => state.currencies);
+
+  const handleAmountChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    const value = target.value.replaceAll(',', '.');
+
+    if (isNumberValid(value)) {
+      dispatch(
+        setCurrencyAmount({
+          ...currencies,
+          amount: value,
+        }),
+      );
+    }
+  };
 
   useEffect(() => {
     if (!currencyFrom) return;

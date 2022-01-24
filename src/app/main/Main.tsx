@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Box, CssBaseline, Typography, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
 
@@ -20,9 +20,7 @@ export const Main: React.FC<MainProps> = ({}) => {
 
   const classes = useStyles(theme);
 
-  const { currencies } = useSelector((state: TReducer) => state.currencies);
-
-  const [amount, setAmount] = useState('');
+  const { currencies, currencyFrom, amount } = useSelector((state: TReducer) => state.currencies);
 
   const MainContainer: React.FC = useMemo(() => {
     if (isDeviceMobile) {
@@ -31,13 +29,6 @@ export const Main: React.FC<MainProps> = ({}) => {
 
     return ({ children }) => <DesktopContainer>{children}</DesktopContainer>;
   }, [isDeviceMobile]);
-
-  const handleAmountChange = ({ target }: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    const value = target.value.replaceAll(',', '.');
-    if (value.match(/^\d*\.?\d{0,2}$/)) {
-      setAmount(value);
-    }
-  };
 
   useEffect(() => {
     if (!Object.entries({ ...currencies })?.length) return;
@@ -60,9 +51,13 @@ export const Main: React.FC<MainProps> = ({}) => {
         ) : (
           <Typography className={classes.wrapper}>
             <Box component="form" noValidate autoComplete="off">
-              <CurrencyToValuate amount={amount} handleAmountChange={handleAmountChange} />
-              <Box mb={1} />
-              <ValuationResult />
+              <CurrencyToValuate />
+              {!!currencyFrom && !!amount && !!parseFloat(`${amount}`) && (
+                <>
+                  <Box mb={1} />
+                  <ValuationResult />
+                </>
+              )}
             </Box>
           </Typography>
         )}
