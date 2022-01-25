@@ -74,17 +74,17 @@ export const useCurrencies = () => {
   };
 
   const calculate = async () => {
-    setResult('');
-
     if (!currencies.currencyFrom || !currencies.currencyTo) {
       return '';
     }
 
+    if (!currencies?.amount) {
+      return '';
+    }
+
+    setResult('');
     try {
       await getCurrentRate({ currencyFrom: currencies.currencyFrom || '', currencyTo: currencies.currencyTo || '' });
-      if (!currencies?.amount) {
-        return;
-      }
       const { amount } = currencies;
       setResult((+amount * +rate).toFixed(2));
     } catch (error) {
